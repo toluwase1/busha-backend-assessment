@@ -81,14 +81,3 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 
 }
 
-
-
-//func convertJSONToStruct (Body io.ReadCloser) json.Decoder {
-//	body, err := ioutil.ReadAll(resp.Body)
-//		err := Body.Close()
-//		if err != nil {
-//
-//		}
-//
-//}
-
