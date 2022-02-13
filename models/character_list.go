@@ -5,5 +5,4 @@ type CharacterList struct {
 	Gender string `json:"gender"`
 	Height float64 `json:"height"`
 	TotalNumberOfCharacters string `json:"totalNumberOfCharacters"`
-	
 }
