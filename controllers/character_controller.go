@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/toluwase1/busha-assessment/models"
 	"log"
@@ -89,19 +90,38 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 			characters = filteredList
 		}
 
-		//heightTotal := float64(0)
-		//for _, character := range characters {
-		//	height:=character.Height
-		//	heightTotal += height
-		//}
-		//ft := heightTotal / 34
-		//inches := heightTotal / 24.53
-		//heightString := fmt.Sprintf("%.2fcm || %.2fft || %.2finches", heightTotal, ft, inches)
+		heightTotal := float64(0)
+		for _, character := range characters {
+			height:=character.Height
+			heightTotal += height
+		}
+		//1 cm = 0.032808 ft
+		//1 cm = 0.3937 in
+		//For instance, 170cm makes 5ft and 6.93 inches.
+		//6.93 inches = 17.6000664 cm
+		ft := heightTotal * 0.032808
+		feetToString := fmt.Sprintf("%f", ft)
+		var a []string
+		if strings.Contains(feetToString,  ".") {
+			a = strings.Split(feetToString,".")
+		}else{
+			a = []string{feetToString, "0"}
+		}
+		stringToFloat:= a[0]
+		floatNum, err := strconv.ParseFloat(stringToFloat, 64)
+		if err != nil {
+			return
+		}
+		value:= 170-(floatNum*30.48)
+		newConv := fmt.Sprintf("%f %s %s %s %f %s", heightTotal, "is equal to", a[0], "feet and", value/2.54, "inches")
+
+		fmt.Println(newConv)
 		c.JSON(http.StatusOK, gin.H{
 			"status":   http.StatusOK,
-			"response": characters,
+			"response": gin.H{
+				"matched characters": len(characters),
+				"convertedheight": newConv,
+			},
 		})
-		//c.JSON(http.StatusOK, gin.H{"message": "user info retrieved successfully", "data": characters,
-		//	"metadata": gin.H{"matching_characters": len(characters), "total_height": heightString}})
 	}
 }
