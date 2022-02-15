@@ -13,9 +13,12 @@ type CharacterList struct {
 	Height float64 `json:"height"`
 	TotalNumberOfCharacters string `json:"totalNumberOfCharacters"`
 }
+type CharacterListSlice struct {
+	CharacterList [] string
+}
 
 
-func GetCharacterListById(c *gin.Context) (*[]CharacterList, error) {
+func GetCharacterListById(c *gin.Context) (*[]string, error) {
 	errList = map[string]string{}
 	movieId := c.Param("movieId")
 	url:= Url+"/films/"+movieId
@@ -39,7 +42,7 @@ func GetCharacterListById(c *gin.Context) (*[]CharacterList, error) {
 		return nil, err
 	}
 
-	character := []CharacterList{}
+	var character CharacterListSlice
 	err = json.Unmarshal(body, &character)
 	if  err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
@@ -54,13 +57,14 @@ func GetCharacterListById(c *gin.Context) (*[]CharacterList, error) {
 		"status":   http.StatusOK,
 		"response": character,
 	})
-	return &character, nil
+	return &character.CharacterList, nil
 }
 
-func GetCharInformation (c *gin.Context) (CharacterList, error){
+func GetCharInformation (url string) (CharacterList, error){
+var	c *gin.Context
 	errList = map[string]string{}
-	path := c.GetString("path")
-	url:= Url+"/films/"+path
+	//path := c.GetString("path")
+	//url:= Url+"/films/"+path
 	response, err := http.Get(url)
 	if err != nil {
 		errList["No_character"] = "Could not get Character from link"

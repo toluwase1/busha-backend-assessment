@@ -1,7 +1,9 @@
 package database
 
+import "github.com/toluwase1/busha-assessment/models"
+
 type DB interface {
-	AddComment(comment *models.Comment) (*models.Comment, error)
-	GetComments(movieId int) (*[]models.Comment, error)
+	AddComment(comment *models.Comments) (*models.Comments, error)
+	GetComments(movieId int) (*[]models.Comments, error)
 	CountComments(movieId int) (int64, error)
 }
