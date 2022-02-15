@@ -120,7 +120,7 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 			"status":   http.StatusOK,
 			"response": gin.H{
 				"matched characters": len(characters),
-				"convertedheight": newConv,
+				"converted height": newConv,
 			},
 		})
 	}

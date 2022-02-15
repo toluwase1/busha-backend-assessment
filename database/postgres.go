@@ -14,7 +14,7 @@ type PostgresDB struct {
 	DB *gorm.DB
 }
 
-func (pgsql *PostgresDB) InitializeDb() {
+func (pgsql *PostgresDB) InitializeDB() {
 	var errorMessages = make(map[string]string)
 	var err error
 	psqlInfo := os.Getenv("DATABASE_URL")

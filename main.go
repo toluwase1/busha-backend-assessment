@@ -1,9 +1,10 @@
 package main
 
-import "github.com/toluwase1/busha-assessment/models"
+import "github.com/toluwase1/busha-assessment/database"
 
 func main() {
-	models.FindMoviesFromApi()
+	postgres := &database.PostgresDB{}
+	postgres.InitializeDB()
 }
 
 
