@@ -14,7 +14,7 @@ import (
 
 func (server *Server) GetMoviesListController() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		errList := map[string]string{}
+		errList = map[string]string{}
 		movies := server.Cache.Get("movies")
 		if movies == nil {
 			data, err := models.FindMoviesFromApi(c)
