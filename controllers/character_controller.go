@@ -28,7 +28,7 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 			return
 		}
 
-		characters := server.Cache.GetCharacters("movie" + strconv.Itoa(id) + "char")
+		characters := server.Cache.GetCharactersFromCache("movie" + strconv.Itoa(id) + "char")
 		if characters == nil {
 			url, err := models.GetCharacterListById(c)
 			if err != nil {
@@ -45,7 +45,7 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 				info, _ := models.GetCharInformation(link)
 				characters = append(characters, info)
 			}
-			server.Cache.SetCharacters("movie_"+strconv.Itoa(id)+"_characters", characters)
+			server.Cache.SetCharToCache("movie_"+strconv.Itoa(id)+"_characters", characters)
 		}
 
 		if orderParameter == "descending" {
