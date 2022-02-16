@@ -48,7 +48,7 @@ func (server *Server) AddNewComment() gin.HandlerFunc {
 			IPAddress:   c.ClientIP(),
 			DateCreated: time.Now(),
 		}
-		data, err := server.DB.AddComment(comment)
+		data, err := server.DB.AddNewCommentToDatabase(comment)
 		if err != nil {
 			log.Println(err)
 			errList["error"] = "could not add comment"
@@ -78,7 +78,7 @@ func (server *Server) GetCommentList() gin.HandlerFunc {
 			})
 			return
 		}
-		data, err := server.DB.GetComments(id)
+		data, err := server.DB.GetAllMovieComments(id)
 
 		for i := 0; i < len(*data)/2; i++ {
 			(*data)[i], (*data)[len(*data)-1-i] = (*data)[len(*data)-1-i], (*data)[i]
@@ -92,7 +92,7 @@ func (server *Server) GetCommentList() gin.HandlerFunc {
 }
 
 func (server *Server) increaseRedisCommentCount(movieID int) bool {
-	var movies = server.Cache.Get("movies")
+	var movies = server.Cache.GetMoviesFromCache("movies")
 	if movies != nil {
 		for i, movie := range *movies {
 			if movie.MovieId == movieID {
