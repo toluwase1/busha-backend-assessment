@@ -14,7 +14,7 @@
         },
         "version": "1"
     },
-    "host": "localhost:8080",
+    "host": "busha-movie-server.herokuapp.com",
     "basePath": "/",
     "paths": {
         "/api/v1/movies": {

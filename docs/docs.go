@@ -281,7 +281,7 @@ const docTemplate_swagger = `{
 // SwaggerInfo_swagger holds exported Swagger Info so clients can modify it
 var SwaggerInfo_swagger = &swag.Spec{
 	Version:          "1",
-	Host:             "localhost:8080",
+	Host:             "busha-movie-server.herokuapp.com",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Busha Assessment, A movie server",
