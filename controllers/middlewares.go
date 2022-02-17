@@ -8,7 +8,7 @@ import (
 )
 
 // This enables us interact with a Frontend incase of such instance
-func (s *Server) CORSMiddleware() *gin.Engine {
+func CORSMiddleware() *gin.Engine {
 	//return func(c *gin.Context) {
 	//	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 	//	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
@@ -47,6 +47,5 @@ func (s *Server) CORSMiddleware() *gin.Engine {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
-	s.InitializeRoutes()
 	return r
 }
