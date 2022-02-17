@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/toluwase1/busha-assessment/database"
 	"github.com/toluwase1/busha-assessment/helpers"
+	middlewares "github.com/toluwase1/busha-assessment/middleware"
 	_ "gorm.io/driver/postgres"
 	"log"
 	"net/http"
@@ -25,6 +26,7 @@ func (server *Server) Start() {
 	server.Cache = helpers.NewRedisCache("localhost:6379", 1, "", 100)
 	server.Router = gin.New()
 	server.InitializeRoutes()
+	middlewares.CORSMiddleware()
 
 	PORT := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	if PORT == ":" {
