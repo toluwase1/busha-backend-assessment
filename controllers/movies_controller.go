@@ -16,7 +16,6 @@ import (
 // @Failure 404 {object} models.ApiError
 // @Failure 500 {object} models.ApiError
 // @Router /api/v1/movies [get]
-
 func (server *Server) GetMoviesListController() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		errList = map[string]string{}
