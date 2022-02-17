@@ -17,6 +17,35 @@
     "host": "localhost:8080",
     "basePath": "/",
     "paths": {
+        "/api/v1/movies": {
+            "get": {
+                "description": "This route Gets movies starting oldest release date to the newest either in the cache or from the Api, data from the cache takes priority",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Route Gets all movies",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.MovieData"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ApiError"
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/movies/{movie_id}/characters": {
             "get": {
                 "description": "Get all characters for a movie by movie id use the sort parameter to sort the results by name or height or gender, and the order parameter to order in assending or desending order eg /api/v1/movies/{movie_id}/characters?sort_by=height\u0026filter_by=male\u0026order=descending",
@@ -211,6 +240,26 @@
                 },
                 "movie_id": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.MovieData": {
+            "type": "object",
+            "properties": {
+                "comment_count": {
+                    "type": "integer"
+                },
+                "movie_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "opening_crawl": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
                 }
             }
         }
