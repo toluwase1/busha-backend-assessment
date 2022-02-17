@@ -1,4 +1,150 @@
+basePath: /
+definitions:
+  models.ApiError:
+    properties:
+      message:
+        type: string
+    type: object
+  models.CharacterList:
+    properties:
+      gender:
+        type: string
+      height:
+        type: number
+      name:
+        type: string
+      totalNumberOfCharacters:
+        type: string
+    type: object
+  models.Comments:
+    properties:
+      body:
+        maxLength: 500
+        minLength: 2
+        type: string
+      date_created:
+        type: string
+      id:
+        type: integer
+      ip_address:
+        type: string
+      movie_id:
+        type: integer
+    required:
+    - body
+    type: object
+host: localhost:8080
 info:
-  contact: {}
-paths: {}
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: 'Repo can be found here: https://github.com/toluwase1/busha-backend-assessment'
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  title: Busha Assessment, A movie server
+  version: "1"
+paths:
+  /api/v1/movies/{movie_id}/characters:
+    get:
+      description: Get all characters for a movie by movie id use the sort parameter
+        to sort the results by name or height or gender, and the order parameter to
+        order in assending or desending order eg /api/v1/movies/{movie_id}/characters?sort_by=height&filter_by=male&order=descending
+      parameters:
+      - description: Movie ID
+        in: path
+        name: movie_id
+        required: true
+        type: integer
+      - description: Sort by height or name or gender
+        in: query
+        name: sort_by
+        type: string
+      - description: ascending or descending order
+        in: query
+        name: order
+        type: string
+      - description: Filter by male or female or n/a or hermaphrodite
+        in: query
+        name: filter_by
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.CharacterList'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ApiError'
+      summary: Get characters
+  /api/v1/movies/{movie_id}/comments:
+    get:
+      description: Endpoint Gets a list of comments for a movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: movie_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ApiError'
+      summary: Endpoint Gets a list of comments
+    post:
+      consumes:
+      - application/json
+      description: Adds a new comment to a post with the post id
+      parameters:
+      - description: Comment
+        in: body
+        name: comment
+        required: true
+        schema:
+          $ref: '#/definitions/models.Comments'
+      - description: MovieId
+        in: path
+        name: movie_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Comments'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ApiError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ApiError'
+      summary: Adds a new comment to a post
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"

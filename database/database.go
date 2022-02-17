@@ -33,7 +33,7 @@ func (psql *PostgresDB) InitializeDB() {
 		errorMessages["DB error"] = err.Error()
 		panic(err)
 	}
-	err = DBSession.Debug().AutoMigrate(&models.Comments{})
+	err = DBSession.AutoMigrate(&models.Comments{})
 	if err != nil {
 		errList["error"] = "migration failed"
 		err = errors.New("could not migrate or create tables")

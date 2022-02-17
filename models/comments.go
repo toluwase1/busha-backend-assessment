@@ -9,3 +9,4 @@ type Comments struct {
 	IPAddress string `json:"ip_address"`
 	DateCreated time.Time `json:"date_created"`
 }
+

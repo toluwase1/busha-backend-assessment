@@ -13,7 +13,7 @@ import (
 // @Description Adds a new comment to a post with the post id
 // @Accept  json
 // @Produce  json
-// @Param comment body models.CommentRequest true "Comment"
+// @Param comment body models.Comments true "Comment"
 // @Param movie_id path int true "MovieId"
 // @Success 200 {object} models.Comments
 // @Failure 404 {object} models.ApiError

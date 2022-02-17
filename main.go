@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/toluwase1/busha-assessment/controllers"
+	_ "github.com/toluwase1/busha-assessment/docs"
 )
 // @title        Busha Assessment, A movie server
 // @version      1
