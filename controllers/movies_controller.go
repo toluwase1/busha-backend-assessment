@@ -9,8 +9,13 @@ import (
 	"sort"
 )
 
-//gETMOVIESListController
-//CacheListWithRedis
+// @Summary      Route Gets all movies
+// @Description  This route Gets movies starting oldest release date to the newest either in the cache or from the Api, data from the cache takes priority
+// @Produce  json
+// @Success 200 {object} models.MovieData
+// @Failure 404 {object} models.ApiError
+// @Failure 500 {object} models.ApiError
+// @Router /api/v1/movies [get]
 
 func (server *Server) GetMoviesListController() gin.HandlerFunc {
 	return func(c *gin.Context) {

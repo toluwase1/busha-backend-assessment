@@ -8,6 +8,17 @@ import (
 	"strconv"
 	"time"
 )
+
+// @Summary Adds a new comment to a post
+// @Description Adds a new comment to a post with the post id
+// @Accept  json
+// @Produce  json
+// @Param comment body models.CommentRequest true "Comment"
+// @Param movie_id path int true "MovieId"
+// @Success 200 {object} models.Comments
+// @Failure 404 {object} models.ApiError
+// @Failure 500 {object} models.ApiError
+// @Router /api/v1/movies/{movie_id}/comments [post]
 func (server *Server) AddNewComment() gin.HandlerFunc {
 	errList = map[string]string{}
 	return func(c *gin.Context) {
@@ -23,16 +34,16 @@ func (server *Server) AddNewComment() gin.HandlerFunc {
 		}
 
 		commentRequest := &models.CommentRequestEntity{}
-		//errs := s.decode(c, commentRequest)
-		//if errs != nil {
-		//	errList["error"] = "could not decode request"
-		//	log.Println(err)
-		//	c.JSON(http.StatusBadRequest, gin.H{
-		//		"status": http.StatusBadRequest,
-		//		"error":  errList,
-		//	})
-		//	return
-		//}
+		err = c.ShouldBindJSON(commentRequest)
+		if err != nil {
+			errList["error"] = "could not decode request"
+			log.Println(err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"status": http.StatusBadRequest,
+				"error":  errList,
+			})
+			return
+		}
 
 		if len(commentRequest.Content) > 500 {
 			errList["error"] = "comment has exceeded required limit"
@@ -66,6 +77,17 @@ func (server *Server) AddNewComment() gin.HandlerFunc {
 	}
 }
 
+
+
+// @Summary Endpoint Gets a list of comments
+// @Description Endpoint Gets a list of comments for a movie
+// @Produce  json
+// @Param movie_id path int true "Movie ID"
+// @Success 200 {object} models.Comments
+// @Failure 404 {object} models.ApiError
+// @Failure 500 {object} models.ApiError
+// @Router /api/v1/movies/{movie_id}/comments [get]
+// GetComments method returns all comments for a particular movie
 func (server *Server) GetCommentList() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		id, err := strconv.Atoi(c.Param("movie_id"))

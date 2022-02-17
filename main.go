@@ -3,10 +3,23 @@ package main
 import (
 	"github.com/toluwase1/busha-assessment/controllers"
 )
+// @title        Busha Assessment, A movie server
+// @version      1
+// @description  Repo can be found here: https://github.com/toluwase1/busha-backend-assessment
 
+// @contact.name   API Support
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  MIT
+// @license.url   https://opensource.org/licenses/MIT
+
+// @host       localhost:8080
+// @BasePath  /
+// @securityDefinitions.basic  BasicAuth
 func main() {
-	postgres := &controllers.PostgresDB{}
-	postgres.InitializeDB()
+	server := &controllers.Server{}
+	server.Start()
 }
 
 

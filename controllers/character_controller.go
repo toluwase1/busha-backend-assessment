@@ -10,6 +10,18 @@ import (
 	"strconv"
 	"strings"
 )
+
+// @Summary Get characters
+// @Description Get all characters for a movie by movie id use the sort parameter to sort the results by name or height or gender, and the order parameter to order in assending or desending order eg /api/v1/movies/{movie_id}/characters?sort_by=height&filter_by=male&order=descending
+// @Produce  json
+// @Param movie_id path int true "Movie ID"
+// @Param sort_by query string false "Sort by height or name or gender"
+// @Param order query string false "ascending or descending order"
+// @Param filter_by query string false "Filter by male or female or n/a or hermaphrodite"
+// @Success 200 {object} []models.CharacterList
+// @Failure 404 {object} models.ApiError
+// @Failure 500 {object} models.ApiError
+// @Router /api/v1/movies/{movie_id}/characters [get]
 func (server *Server) GetCharacterList() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//clears previous error if any
