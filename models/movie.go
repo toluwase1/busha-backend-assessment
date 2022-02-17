@@ -20,7 +20,7 @@ type MovieData struct {
 type SomeMovie struct {
 	Results [] MovieData `json:"results"`
 }
-const Url = "https://swapi.dev"
+const Url = "https://swapi.dev/api"
 
 func GetJson(url string, target interface{}) error{
 	response, err := http.Get(url)
