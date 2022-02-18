@@ -13,10 +13,14 @@ type CharacterList struct {
 	Name string `json:"name"`
 	Gender string `json:"gender"`
 	Height float64 `json:"height"`
-	TotalNumberOfCharacters string `json:"totalNumberOfCharacters"`
+	Mass      string `json:"mass"`
+	HairColor string `json:"hair_color"`
+	SkinColor string `json:"skin_color"`
+	EyeColor  string `json:"eye_color"`
+	BirthYear string `json:"birth_year"`
 }
 type CharacterListSlice struct {
-	CharacterList [] string
+	CharacterList [] string `json:"characters"`
 }
 
 
