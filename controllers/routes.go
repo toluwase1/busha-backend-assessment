@@ -12,7 +12,7 @@ func (server *Server) InitializeRoutes() {
 		v1.GET("/movies", server.GetMoviesListController())
 		v1.POST("/movies/:movie_id/comments", server.AddNewComment())
 		v1.GET("/movies/:movie_id/comments", server.GetCommentList())
-		v1.POST("/movies/:movie_id/characters", server.GetCharacterList())
+		v1.GET("/movies/:movie_id/characters", server.GetCharacterList())
 	}
 	server.Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
