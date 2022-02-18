@@ -37,10 +37,10 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			movies = &result
 			//adding comments for uncached movies
 			for i, movie := range *movies {
-				commentCount, _ := server.DB.CountComments(int(movie.MovieId))
+				commentCount, _ := server.DB.CountComments(movie.EpisodeId)
 				hold := models.MovieData{
-					MovieId:    movie.MovieId+1,
-					Name:         movie.Name,
+					EpisodeId:    movie.EpisodeId,
+					Title:         movie.Title,
 					CommentCount: commentCount,
 					OpeningCrawl: movie.OpeningCrawl,
 					ReleaseDate:  movie.ReleaseDate,

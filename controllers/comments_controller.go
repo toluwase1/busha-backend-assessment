@@ -55,9 +55,9 @@ func (server *Server) AddNewComment() gin.HandlerFunc {
 		}
 		comment := &models.Comments{
 			MovieId:    id,
-			Body:   	commentRequest.Content,
+			Content:   	commentRequest.Content,
 			IPAddress:   c.ClientIP(),
-			DateCreated: time.Now(),
+			CreatedAt:  time.Now(),
 		}
 		data, err := server.DB.AddNewCommentToDatabase(comment)
 		if err != nil {
@@ -113,15 +113,15 @@ func (server *Server) GetCommentList() gin.HandlerFunc {
 	}
 }
 
-func (server *Server) increaseRedisCommentCount(movieID int) bool {
+func (server *Server) increaseRedisCommentCount(episodeId int) bool {
 	var movies = server.Cache.GetMoviesFromCache("movies")
 	if movies != nil {
 		for i, movie := range *movies {
-			if movie.MovieId == movieID {
+			if movie.EpisodeId == episodeId {
 				hold := models.MovieData{
-					MovieId:    movie.MovieId,
-					Name:        movie.Name,
-					CommentCount: movie.CommentCount + 1,
+					EpisodeId:    movie.EpisodeId,
+					Title:        movie.Title,
+					CommentCount: movie.CommentCount,
 					OpeningCrawl: movie.OpeningCrawl,
 					ReleaseDate:  movie.ReleaseDate,
 				}
