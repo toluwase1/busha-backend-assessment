@@ -68,7 +68,9 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 				})
 			case "height":
 				sort.Slice(characters, func(i, j int) bool {
-					return characters[i].Height > characters[j].Height
+					heightI, _ := strconv.ParseFloat(characters[i].Height, 64)
+					heightJ, _ := strconv.ParseFloat(characters[j].Height, 64)
+					return heightJ < heightI
 				})
 			case "gender":
 				sort.Slice(characters, func(i, j int) bool {
@@ -83,7 +85,9 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 				})
 			case "height":
 				sort.Slice(characters, func(i, j int) bool {
-					return characters[i].Height < characters[j].Height
+					heightI, _ := strconv.ParseFloat(characters[i].Height, 64)
+					heightJ, _ := strconv.ParseFloat(characters[j].Height, 64)
+					return heightJ < heightI
 				})
 			case "gender":
 				sort.Slice(characters, func(i, j int) bool {
@@ -104,7 +108,11 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 
 		heightTotal := float64(0)
 		for _, character := range characters {
-			height:=character.Height
+			height, err := strconv.ParseFloat(character.Height, 64)
+			if err != nil {
+				log.Println(err)
+				continue
+			}
 			heightTotal += height
 		}
 		//1 cm = 0.032808 ft
@@ -114,25 +122,26 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 		ft := heightTotal * 0.032808
 		feetToString := fmt.Sprintf("%f", ft)
 		var a []string
-		if strings.Contains(feetToString,  ".") {
-			a = strings.Split(feetToString,".")
-		}else{
+		if strings.Contains(feetToString, ".") {
+			a = strings.Split(feetToString, ".")
+		} else {
 			a = []string{feetToString, "0"}
 		}
-		stringToFloat:= a[0]
+		stringToFloat := a[0]
 		floatNum, err := strconv.ParseFloat(stringToFloat, 64)
 		if err != nil {
 			return
 		}
-		value:= 170-(floatNum*30.48)
+		value := 170 - (floatNum * 30.48)
 		newConv := fmt.Sprintf("%f %s %s %s %f %s", heightTotal, "is equal to", a[0], "feet and", value/2.54, "inches")
 
 		fmt.Println(newConv)
 		c.JSON(http.StatusOK, gin.H{
-			"status":   http.StatusOK,
+			"status": http.StatusOK,
 			"response": gin.H{
 				"matched characters": len(characters),
-				"converted height": newConv,
+				"converted height":   newConv,
+				"characters":         characters,
 			},
 		})
 	}

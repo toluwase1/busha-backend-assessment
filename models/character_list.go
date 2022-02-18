@@ -2,7 +2,6 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
@@ -10,9 +9,9 @@ import (
 )
 
 type CharacterList struct {
-	Name string `json:"name"`
-	Gender string `json:"gender"`
-	Height float64 `json:"height"`
+	Name      string `json:"name"`
+	Gender    string `json:"gender"`
+	Height    string `json:"height"`
 	Mass      string `json:"mass"`
 	HairColor string `json:"hair_color"`
 	SkinColor string `json:"skin_color"`
@@ -20,17 +19,15 @@ type CharacterList struct {
 	BirthYear string `json:"birth_year"`
 }
 type CharacterListSlice struct {
-	CharacterList [] string `json:"characters"`
+	CharacterList []string `json:"characters"`
 }
 
-
 func GetCharacterListById(id int) (*[]string, error) {
-	var	c *gin.Context
+	var c *gin.Context
 	errList = map[string]string{}
-	convId:=strconv.Itoa(id)
-	url:= Url+"/films/"+convId
+	convId := strconv.Itoa(id)
+	url := Url + "/films/" + convId
 	response, err := http.Get(url)
-	fmt.Println("response", response)
 	if err != nil {
 		errList["No_movie"] = "Could not find Character"
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -52,7 +49,7 @@ func GetCharacterListById(id int) (*[]string, error) {
 
 	var character CharacterListSlice
 	err = json.Unmarshal(body, &character)
-	if  err != nil {
+	if err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status": http.StatusBadRequest,
@@ -60,21 +57,18 @@ func GetCharacterListById(id int) (*[]string, error) {
 		})
 		return nil, err
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"status":   http.StatusOK,
-		"response": character,
-	})
+	//c.JSON(http.StatusOK, gin.H{
+	//	"status":   http.StatusOK,
+	//	"response": character,
+	//})
 	return &character.CharacterList, nil
 }
 
-func GetCharInformation (url string) (CharacterList, error){
-var	c *gin.Context
+func GetCharInformation(url string) (CharacterList, error) {
+	var c *gin.Context
 	errList = map[string]string{}
-	//path := c.GetString("path")
-	//url:= Url+"/films/"+path
 	response, err := http.Get(url)
-	fmt.Println("response", response)
+
 	if err != nil {
 		errList["No_character"] = "Could not get Character from link"
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -94,22 +88,11 @@ var	c *gin.Context
 		return CharacterList{}, err
 	}
 
-	character := CharacterList{}
+	var character CharacterList
 	err = json.Unmarshal(body, &character)
-	if  err != nil {
+	if err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": http.StatusBadRequest,
-			"error":  errList,
-		})
 		return CharacterList{}, err
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"status":   http.StatusOK,
-		"response": character,
-	})
 	return character, nil
 }
-
-
