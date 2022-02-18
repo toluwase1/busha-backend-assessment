@@ -39,7 +39,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			for i, movie := range *movies {
 				commentCount, _ := server.DB.CountComments(int(movie.MovieId))
 				hold := models.MovieData{
-					MovieId:    movie.MovieId,
+					MovieId:    movie.MovieId+1,
 					Name:         movie.Name,
 					CommentCount: commentCount,
 					OpeningCrawl: movie.OpeningCrawl,
