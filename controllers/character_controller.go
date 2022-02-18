@@ -26,8 +26,8 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		//clears previous error if any
 		errList = map[string]string{}
-		sortParameter := c.Query("sort")
-		filterParameter := strings.TrimSpace(c.Query("filter"))
+		sortParameter := c.Query("sort_by")
+		filterParameter := strings.TrimSpace(c.Query("filter_by"))
 		orderParameter := c.Query("order")
 		id, err := strconv.Atoi(c.Param("movie_id"))
 		if err != nil {
