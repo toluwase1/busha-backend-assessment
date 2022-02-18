@@ -25,7 +25,7 @@ func (server *Server) Start() {
 	server.Cache = helpers.NewRedisCache("localhost:6379", 1, "", 100)
 	server.Router = gin.New()
 	server.InitializeRoutes()
-	//CORSMiddleware()
+	CORSMiddleware()
 	//middlewares.CORSMiddleware()
 
 	PORT := fmt.Sprintf(":%s", os.Getenv("PORT"))
