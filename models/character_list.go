@@ -2,9 +2,11 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 )
 
 type CharacterList struct {
@@ -18,11 +20,13 @@ type CharacterListSlice struct {
 }
 
 
-func GetCharacterListById(c *gin.Context) (*[]string, error) {
+func GetCharacterListById(id int) (*[]string, error) {
+	var	c *gin.Context
 	errList = map[string]string{}
-	movieId := c.Param("movieId")
-	url:= Url+"/films/"+movieId
+	convId:=strconv.Itoa(id)
+	url:= Url+"/films/"+convId
 	response, err := http.Get(url)
+	fmt.Println("response", response)
 	if err != nil {
 		errList["No_movie"] = "Could not find Character"
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -66,6 +70,7 @@ var	c *gin.Context
 	//path := c.GetString("path")
 	//url:= Url+"/films/"+path
 	response, err := http.Get(url)
+	fmt.Println("response", response)
 	if err != nil {
 		errList["No_character"] = "Could not get Character from link"
 		c.JSON(http.StatusBadRequest, gin.H{

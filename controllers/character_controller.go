@@ -42,7 +42,7 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 
 		characters := server.Cache.GetCharactersFromCache("movie_" + strconv.Itoa(id) + "_characters")
 		if characters == nil {
-			url, err := models.GetCharacterListById(c)
+			url, err := models.GetCharacterListById(id)
 			if err != nil {
 				errList["Id"] = "movie Id invalid"
 				log.Println(err)
