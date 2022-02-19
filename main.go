@@ -20,7 +20,6 @@ import (
 // @securityDefinitions.basic  BasicAuth
 func main() {
 	server := &controllers.Server{}
-
 	server.Start()
 }
 

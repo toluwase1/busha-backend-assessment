@@ -1,6 +1,7 @@
 package controllers
 
 import (
+
 	"github.com/gin-gonic/gin"
 	"github.com/toluwase1/busha-assessment/models"
 
@@ -35,6 +36,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 				return result[i].ReleaseDate > result[j].ReleaseDate
 			})
 			movies = &result
+			//log.Println.Println(movies)
 			for i, movie := range *movies {
 				commentCount, _ := server.DB.CountComments(movie.EpisodeId)
 				hold := models.MovieData{
@@ -47,8 +49,9 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 				(*movies)[i] = hold
 			}
 			server.Cache.Set("movies", movies)
-			log.Println("Movie List added to cache")
+			//log.Println("Movie List added to cache", movies)
 		}
+		log.Println("outside", movies)
 		c.JSON(http.StatusOK, movies)
 
 	}
