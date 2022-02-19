@@ -61,7 +61,7 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 		})
 		return nil, err
 	}
-	movies := SomeMovie{}
+	var movies SomeMovie
 	err = json.Unmarshal(body, &movies)
 	if  err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
