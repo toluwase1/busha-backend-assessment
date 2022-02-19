@@ -1,7 +1,7 @@
 package models
 
 type CommentRequestEntity struct {
-	Content string `json:"content"`
+	Content string `json:"body"`
 }
 
 type ApiError struct {
