@@ -21,6 +21,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		errList = map[string]string{}
 		movies := server.Cache.GetMoviesFromCache("movies")
+		var newResult []byte
 		if movies == nil {
 			data, err := models.FindMoviesFromApi(c)
 			if err != nil {
@@ -50,13 +51,13 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			//	}
 			//	(*movies)[i] = hold
 			//}
-			json.Marshal(indexed)
+			newResult, _ = json.Marshal(indexed)
 			server.Cache.Set("movies", movies)
 			log.Println("Movie List added to cache")
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"status":   http.StatusOK,
-			"response": movies,
+			"response": newResult,
 		})
 	}
 }
