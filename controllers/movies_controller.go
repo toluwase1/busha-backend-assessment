@@ -49,9 +49,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			server.Cache.Set("movies", movies)
 			log.Println("Movie List added to cache")
 		}
-		c.JSON(http.StatusOK, gin.H{
-			"status":   http.StatusOK,
-			"response": movies,
-		})
+		c.JSON(http.StatusOK, movies)
+
 	}
 }
