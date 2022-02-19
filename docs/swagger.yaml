@@ -7,22 +7,35 @@ definitions:
     type: object
   models.CharacterList:
     properties:
+      birth_year:
+        type: string
+      eye_color:
+        type: string
       gender:
         type: string
+      hair_color:
+        type: string
       height:
-        type: number
+        type: string
+      mass:
+        type: string
       name:
         type: string
-      totalNumberOfCharacters:
+      skin_color:
+        type: string
+    type: object
+  models.CommentRequestEntity:
+    properties:
+      body:
         type: string
     type: object
   models.Comments:
     properties:
-      body:
+      content:
         maxLength: 500
         minLength: 2
         type: string
-      date_created:
+      created_at:
         type: string
       id:
         type: integer
@@ -31,19 +44,19 @@ definitions:
       movie_id:
         type: integer
     required:
-    - body
+    - content
     type: object
   models.MovieData:
     properties:
       comment_count:
         type: integer
-      movie_id:
+      episode_id:
         type: integer
-      name:
-        type: string
       opening_crawl:
         type: string
       release_date:
+        type: string
+      title:
         type: string
     type: object
 host: busha-movie-server.herokuapp.com
@@ -155,7 +168,7 @@ paths:
         name: comment
         required: true
         schema:
-          $ref: '#/definitions/models.Comments'
+          $ref: '#/definitions/models.CommentRequestEntity'
       - description: MovieId
         in: path
         name: movie_id

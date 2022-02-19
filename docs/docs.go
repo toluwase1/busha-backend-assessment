@@ -165,7 +165,7 @@ const docTemplate_swagger = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.Comments"
+                            "$ref": "#/definitions/models.CommentRequestEntity"
                         }
                     },
                     {
@@ -211,16 +211,36 @@ const docTemplate_swagger = `{
         "models.CharacterList": {
             "type": "object",
             "properties": {
+                "birth_year": {
+                    "type": "string"
+                },
+                "eye_color": {
+                    "type": "string"
+                },
                 "gender": {
                     "type": "string"
                 },
+                "hair_color": {
+                    "type": "string"
+                },
                 "height": {
-                    "type": "number"
+                    "type": "string"
+                },
+                "mass": {
+                    "type": "string"
                 },
                 "name": {
                     "type": "string"
                 },
-                "totalNumberOfCharacters": {
+                "skin_color": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.CommentRequestEntity": {
+            "type": "object",
+            "properties": {
+                "body": {
                     "type": "string"
                 }
             }
@@ -228,15 +248,15 @@ const docTemplate_swagger = `{
         "models.Comments": {
             "type": "object",
             "required": [
-                "body"
+                "content"
             ],
             "properties": {
-                "body": {
+                "content": {
                     "type": "string",
                     "maxLength": 500,
                     "minLength": 2
                 },
-                "date_created": {
+                "created_at": {
                     "type": "string"
                 },
                 "id": {
@@ -256,16 +276,16 @@ const docTemplate_swagger = `{
                 "comment_count": {
                     "type": "integer"
                 },
-                "movie_id": {
+                "episode_id": {
                     "type": "integer"
-                },
-                "name": {
-                    "type": "string"
                 },
                 "opening_crawl": {
                     "type": "string"
                 },
                 "release_date": {
+                    "type": "string"
+                },
+                "title": {
                     "type": "string"
                 }
             }
