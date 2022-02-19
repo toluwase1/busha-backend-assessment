@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/toluwase1/busha-assessment/models"
 	"log"
+	"math"
 	"net/http"
 	"sort"
 	"strconv"
@@ -127,14 +128,12 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 		} else {
 			a = []string{feetToString, "0"}
 		}
-		stringToFloat := a[0]
-		floatNum, err := strconv.ParseFloat(stringToFloat, 64)
+		floatNum, err := strconv.ParseFloat(a[1], 64)
 		if err != nil {
 			return
 		}
-		value := 170 - (floatNum * 30.48)
-		newConv := fmt.Sprintf("%f %s %s %s %f %s", heightTotal, "is equal to", a[0], "feet and", value/2.54, "inches")
-
+		floatNum = floatNum/math.Pow10(len(a[1]))
+		newConv := fmt.Sprintf("%f %s %s %s %f %s", heightTotal, "is equal to", a[0], "feet and", floatNum*12, "inches")
 		fmt.Println(newConv)
 		c.JSON(http.StatusOK, gin.H{
 			"status": http.StatusOK,
