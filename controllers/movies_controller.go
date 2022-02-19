@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"github.com/toluwase1/busha-assessment/models"
 
@@ -37,7 +38,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			movies = &result
 			//addd:=Server{}
 			//addd.addCommentCountToMovies(movies)
-			server.addCommentCountToMovies(movies)
+			indexed:=server.addCommentCountToMovies(movies)
 			//for i, movie := range *movies {
 			//	commentCount, _ := server.DB.CountComments(movie.EpisodeId)
 			//	hold := models.MovieData{
@@ -49,6 +50,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 			//	}
 			//	(*movies)[i] = hold
 			//}
+			json.Marshal(indexed)
 			server.Cache.Set("movies", movies)
 			log.Println("Movie List added to cache")
 		}
@@ -59,10 +61,11 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 	}
 }
 
-func (s *Server) addCommentCountToMovies(movies *[]models.MovieData) {
+func (s *Server) addCommentCountToMovies(movies *[]models.MovieData) models.MovieData  {
+	var temp models.MovieData
 	for idx, movie := range *movies {
 		commentCount, _ := s.DB.CountComments(movie.EpisodeId)
-		temp := models.MovieData{
+		temp = models.MovieData{
 			EpisodeId:    movie.EpisodeId,
 			Title:         movie.Title,
 			CommentCount: commentCount,
@@ -71,4 +74,6 @@ func (s *Server) addCommentCountToMovies(movies *[]models.MovieData) {
 		}
 		(*movies)[idx] = temp
 	}
+
+	return temp
 }
