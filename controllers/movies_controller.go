@@ -35,24 +35,40 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 				return result[i].ReleaseDate > result[j].ReleaseDate
 			})
 			movies = &result
-
-			for i, movie := range *movies {
-				commentCount, _ := server.DB.CountComments(movie.EpisodeId)
-				hold := models.MovieData{
-					EpisodeId:    movie.EpisodeId,
-					Title:         movie.Title,
-					CommentCount: commentCount,
-					OpeningCrawl: movie.OpeningCrawl,
-					ReleaseDate:  movie.ReleaseDate,
-				}
-				(*movies)[i] = hold
-			}
+			//addd:=Server{}
+			//addd.addCommentCountToMovies(movies)
+			server.addCommentCountToMovies(movies)
+			//for i, movie := range *movies {
+			//	commentCount, _ := server.DB.CountComments(movie.EpisodeId)
+			//	hold := models.MovieData{
+			//		EpisodeId:    movie.EpisodeId,
+			//		Title:         movie.Title,
+			//		CommentCount: commentCount,
+			//		OpeningCrawl: movie.OpeningCrawl,
+			//		ReleaseDate:  movie.ReleaseDate,
+			//	}
+			//	(*movies)[i] = hold
+			//}
 			server.Cache.Set("movies", movies)
 			log.Println("Movie List added to cache")
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"status":   http.StatusOK,
-			"response": *movies,
+			"response": movies,
 		})
+	}
+}
+
+func (s *Server) addCommentCountToMovies(movies *[]models.MovieData) {
+	for idx, movie := range *movies {
+		commentCount, _ := s.DB.CountComments(movie.EpisodeId)
+		temp := models.MovieData{
+			EpisodeId:    movie.EpisodeId,
+			Title:         movie.Title,
+			CommentCount: commentCount,
+			OpeningCrawl: movie.OpeningCrawl,
+			ReleaseDate:  movie.ReleaseDate,
+		}
+		(*movies)[idx] = temp
 	}
 }
