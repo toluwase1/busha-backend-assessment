@@ -2,13 +2,12 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	_ "fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"io/ioutil"
 	"net/http"
- )
+)
 
 type MovieData struct {
 	EpisodeId int `json:"episode_id"`
@@ -37,7 +36,6 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 
 	url:= Url+"/films/"
 	response, err := http.Get(url)
-	fmt.Println("response",response)
 	if err != nil {
 		errList["No_movies"] = "No movies Found"
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -53,7 +51,7 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 
 		}
 	}(response.Body)
-//fmt.Println("res body", response.Body)
+
 	body, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		errList["Bad Request"] = "Could not read the specified body"
@@ -63,8 +61,8 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 		})
 		return nil, err
 	}
-	movies := &SomeMovie{}
-	err = json.Unmarshal(body, movies)
+	movies := SomeMovie{}
+	err = json.Unmarshal(body, &movies)
 	if  err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -78,7 +76,6 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 		"status":   http.StatusOK,
 		"response": movies,
 	})
-//fmt.Println("movies result:", &movies.Results)
 	return &movies.Results, nil
 
 }

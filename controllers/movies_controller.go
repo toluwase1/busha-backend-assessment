@@ -35,7 +35,7 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 				return result[i].ReleaseDate > result[j].ReleaseDate
 			})
 			movies = &result
-			//adding comments for uncached movies
+
 			for i, movie := range *movies {
 				commentCount, _ := server.DB.CountComments(movie.EpisodeId)
 				hold := models.MovieData{
@@ -47,14 +47,12 @@ func (server *Server) GetMoviesListController() gin.HandlerFunc {
 				}
 				(*movies)[i] = hold
 			}
-
-
 			server.Cache.Set("movies", movies)
 			log.Println("Movie List added to cache")
 		}
 		c.JSON(http.StatusOK, gin.H{
 			"status":   http.StatusOK,
-			"response": movies,
+			"response": *movies,
 		})
 	}
 }
