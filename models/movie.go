@@ -21,7 +21,8 @@ type SomeMovie struct {
 	Results [] MovieData `json:"results"`
 }
 const Url = "https://swapi.dev/api"
-
+const UrlAlt = "https://swapi-deno.azurewebsites.net/api"
+//https://swapi-deno.azurewebsites.net/#People/1
 func GetJson(url string, target interface{}) error{
 	response, err := http.Get(url)
 	if err != nil {
@@ -34,7 +35,8 @@ func GetJson(url string, target interface{}) error{
 func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 	errList = map[string]string{}
 
-	url:= Url+"/films/"
+
+	url:= UrlAlt+"/films/"
 	response, err := http.Get(url)
 	if err != nil {
 		errList["No_movies"] = "No movies Found"
@@ -61,7 +63,8 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 		})
 		return nil, err
 	}
-	var movies SomeMovie
+	//var movies SomeMovie
+	movies := &[]MovieData{}
 	err = json.Unmarshal(body, &movies)
 	if  err != nil {
 		errList["Bad Request"] = "Could not read the specified body from the api"
@@ -76,7 +79,7 @@ func FindMoviesFromApi(c *gin.Context) (*[]MovieData, error) {
 		"status":   http.StatusOK,
 		"response": movies,
 	})
-	return &movies.Results, nil
+	return movies, nil
 
 }
 

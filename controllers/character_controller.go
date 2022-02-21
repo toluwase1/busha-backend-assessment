@@ -145,3 +145,12 @@ func (server *Server) GetCharacterList() gin.HandlerFunc {
 		})
 	}
 }
+
+//func pangrams(s string) string {
+//	// Write your code here
+//	slice := []rune{}
+//
+//	for i:=0; i < len(s) i++ {
+//
+//	}
+//}

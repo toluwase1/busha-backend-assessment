@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
@@ -26,7 +27,7 @@ func GetCharacterListById(id int) (*[]string, error) {
 	var c *gin.Context
 	errList = map[string]string{}
 	convId := strconv.Itoa(id)
-	url := Url + "/films/" + convId
+	url := UrlAlt + "/films/" + convId
 	response, err := http.Get(url)
 	if err != nil {
 		errList["No_movie"] = "Could not find Character"
@@ -64,7 +65,8 @@ func GetCharacterListById(id int) (*[]string, error) {
 	return &character.CharacterList, nil
 }
 
-func GetCharInformation(url string) (CharacterList, error) {
+func GetCharInformation(id string) (CharacterList, error) {
+	url := fmt.Sprintf("%s/people/%s/", UrlAlt, id)
 	var c *gin.Context
 	errList = map[string]string{}
 	response, err := http.Get(url)
